@@ -1,0 +1,14 @@
+{% extends 'serveur/base.html' %}
+
+{% block title %}Historique des accès{% endblock %}
+
+{% block content %}
+<h2>Ajouter des images pour {{ employe.nom }}</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="images" multiple required>
+  <button type="submit">Téléverser</button>
+</form>
+
+{% endblock %}

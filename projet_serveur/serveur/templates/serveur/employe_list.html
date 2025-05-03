@@ -1,46 +1,47 @@
-<!-- serveur/templates/serveur/employe_list.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des employés</title>
-</head>
-<body>
-    <h1>Liste des employés</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Matricule</th>
-                <th>Numéro d'inscription</th>
-                <th>Image</th>
-                <th>Dernier accès</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data %}
-            <tr>
-                <td>{{ item.employe.nom }}</td>
-                <td>{{ item.employe.matricule }}</td>
-                <td>{{ item.employe.matricule }}</td>
+{% extends 'serveur/base.html' %}
+
+{% block title %}Liste des Employés{% endblock %}
+
+{% block content %}
+<h1>Liste des Employés</h1>
+
+<!-- Bouton pour ajouter un employé -->
+<a href="{% url 'ajouter_employe' %}">
+    <button>Ajouter un Employé</button>
+</a>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Matricule</th>
+            <th>Dernier accès</th>
+            <th>Actions</th>  
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.nom }}</td>
+            <td>{{ item.matricule }}</td>
+            <td>
+                {% if item.acceslog_set.all %}
+                    {{ item.acceslog_set.last.date_entree }}
+                {% else %}
+                    Aucun accès
+                {% endif %}
+            </td>
+            <td>
                 <td>
-                    {% if item.visage %}
-                        <img src="{{ item.visage.image_path }}" alt="Visage de {{ item.employe.nom }}" width="100">
-                    {% else %}
-                        Pas d'image
-                    {% endif %}
+                    <a href="{% url 'upload_image' item.id %}">Téléverser image</a> |
+                    <a href="{% url 'modifier_employe' item.id %}">✏ Modifier</a> |
+                    <a href="{% url 'supprimer_employe' item.id %}" onclick="return confirm('Supprimer ?');">🗑 Supprimer</a>
                 </td>
-                <td>
-                    {% if item.dernier_acces %}
-                        {{ item.dernier_acces.date_entree }}
-                    {% else %}
-                        Pas d'accès enregistré
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+{% endblock %}

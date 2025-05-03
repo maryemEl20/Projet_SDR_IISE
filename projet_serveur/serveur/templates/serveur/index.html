@@ -1,13 +1,13 @@
-<!-- serveur/templates/serveur/index.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page d'accueil</title>
-</head>
-<body>
-    <h1>Bienvenue sur la page du serveur</h1>
-    <p><a href="{% url 'employe_list' %}">Voir la liste des employés</a></p>
-</body>
-</html>
+{% extends 'serveur/base.html' %}
+
+{% block title %}Page d'Accueil{% endblock %}
+
+{% block content %}
+<h1>Bienvenue sur l'Application de Gestion des Employés</h1>
+<p>Utilisez le menu de navigation pour accéder à différentes fonctionnalités de l'application :</p>
+<ul>
+    <li><a href="{% url 'employe_list' %}">Liste des Employés</a></li>
+    <li><a href="{% url 'historique-acces' %}">Historique des Accès</a></li>
+    <li><a href="{% url 'ajouter_employe' %}">Ajouter un Employé</a></li>
+</ul>
+{% endblock %}

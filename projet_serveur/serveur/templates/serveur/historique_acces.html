@@ -1,0 +1,25 @@
+{% extends 'serveur/base.html' %}
+
+{% block title %}Historique des accès{% endblock %}
+
+{% block content %}
+    <h1>Historique des accès</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Matricule</th>
+                <th>Date d'accès</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for acces in data %}
+            <tr>
+                <td>{{ acces.employe.nom }}</td>
+                <td>{{ acces.employe.matricule }}</td>
+                <td>{{ acces.date_entree }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

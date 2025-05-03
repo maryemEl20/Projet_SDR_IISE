@@ -1,0 +1,17 @@
+{% extends 'serveur/base.html' %}
+
+{% block title %}Ajouter un Employé{% endblock %}
+
+{% block content %}
+<h1>Ajouter un Nouvel Employé</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <label for="images">Télécharger plusieurs images du visage :</label>
+    <input type="file" name="images" multiple required>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+{% endblock %}

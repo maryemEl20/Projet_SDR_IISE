@@ -1,0 +1,22 @@
+{% extends 'serveur/base.html' %}
+
+{% block title %}Modifier Employé{% endblock %}
+
+{% block content %}
+<h2>Modifier l'employé : {{ employe.nom }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+</form>
+
+<h3>Images actuelles</h3>
+<ul>
+    {% for img in images %}
+        <li><img src="{{ img.image_path.url }}" width="100" height="100" /></li>
+    {% empty %}
+        <p>Aucune image disponible.</p>
+    {% endfor %}
+</ul>
+{% endblock %}
