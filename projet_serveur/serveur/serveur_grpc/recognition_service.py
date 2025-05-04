@@ -9,11 +9,21 @@ import sys
 import django
 import pickle
 import face_recognition
+from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
+from django.shortcuts import render, redirect
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 # Configuration de Django
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projet_serveur.settings")
 django.setup()
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../serveur')))
+
+from serveur.models import Employe, AccesLog
 
 # Chargement des encodages connus
 with open("known_faces.pickle", "rb") as f:
@@ -40,9 +50,12 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
 
             name = "Unknown"
             confidence = 1 - face_distances[best_match_index]
+            
+            
 
             if matches[best_match_index]:
                 name = known_names[best_match_index]
+                enregistrer_acces(name)
             return face_pb2.RecognitionResponse(
                 name=name,
                 confidence=float(confidence * 100),
@@ -61,6 +74,29 @@ def serve():
     server.start()
     print("Serveur gRPC (face_recognition) en cours d'exécution sur le port 50051...")
     server.wait_for_termination()
+
+
+
+
+def enregistrer_acces(request, nom_employe):
+    try:
+        employe = Employe.objects.get(nom=nom_employe)
+
+        dernier_acces = AccesLog.objects.filter(employe=employe).order_by('-date_entree').first()
+
+        maintenant = timezone.now()
+        if not dernier_acces or (maintenant - dernier_acces.date_entree) > timedelta(minutes=5):
+            AccesLog.objects.create(employe=employe, date_entree=maintenant)
+            messages.success(request, f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
+            print(f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
+        else:
+            messages.info(request, f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
+            print(f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
+    except Employe.DoesNotExist:
+        messages.error(request, f"Employé introuvable : {nom_employe}")
+
+    return redirect('historique_acces')
+
 
 if __name__ == '__main__':
     serve()

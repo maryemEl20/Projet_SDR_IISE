@@ -1,20 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.http import JsonResponse
 from .models import Employe, AccesLog, Visage
 from .forms import EmployeForm
 from django.contrib import messages
 import os
 from django.conf import settings
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 import shutil
 
-
 def historique_acces_view(request):
     data = AccesLog.objects.select_related('employe').order_by('-date_entree')
     return render(request, 'serveur/historique_acces.html', {'data': data})
+
+
+def delete_historique(request, acces_id):
+    acces = get_object_or_404(AccesLog, id=acces_id)
+    acces.delete()
+    messages.success(request, "Le record d'accès a été supprimé avec succès.")
+    return redirect('historique_acces')  
+
 
 def employe_list(request):
     data = Employe.objects.all()
@@ -101,4 +106,5 @@ def modifier_employe(request, employe_id):
 
     images = Visage.objects.filter(employe=employe)
     return render(request, 'serveur/modifier_employe.html', {'form': form, 'employe': employe, 'images': images})
+
 
