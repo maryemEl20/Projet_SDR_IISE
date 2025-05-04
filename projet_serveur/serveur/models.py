@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 class Employe(models.Model):
     nom = models.CharField(max_length=100)
@@ -17,4 +18,8 @@ class AccesLog(models.Model):
 
     def __str__(self):
         return f"Accès de {self.employe.nom} à {self.date_entree}"
-  
+
+def save(self, *args, **kwargs):
+        if not self.image_path.name.startswith(self.employe.nom):
+            self.image_path.name = os.path.join('visages', self.employe.nom, os.path.basename(self.image_path.name))
+        super().save(*args, **kwargs)

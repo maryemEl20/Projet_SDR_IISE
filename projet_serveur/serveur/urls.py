@@ -1,6 +1,10 @@
 from django.urls import path
 from . import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
+from . import views
 urlpatterns = [
     path('', views.employe_list, name='employe_default'),
     path('employes/', views.employe_list, name='employe_list'),
@@ -9,4 +13,6 @@ urlpatterns = [
     path('employe/<int:employe_id>/upload/', views.upload_image, name='upload_image'),
     path('employe/<int:employe_id>/supprimer/', views.supprimer_employe, name='supprimer_employe'),
     path('employe/<int:employe_id>/modifier/', views.modifier_employe, name='modifier_employe'),
-]
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

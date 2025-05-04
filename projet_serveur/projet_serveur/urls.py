@@ -20,10 +20,11 @@ from django.urls import path, include
 from django.shortcuts import redirect
 from django.conf import settings
 from django.conf.urls.static import static
+from serveur import views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('serveur/', include('serveur.urls')),  #
+    path('serveur/', include('serveur.urls')),  
     path('', lambda request: redirect('serveur/')),  
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

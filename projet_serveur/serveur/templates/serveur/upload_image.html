@@ -3,12 +3,22 @@
 {% block title %}Historique des accès{% endblock %}
 
 {% block content %}
-<h2>Ajouter des images pour {{ employe.nom }}</h2>
+  <h1>Ajouter une image pour {{ employe.nom }}</h1>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="file" name="images" multiple required>
-  <button type="submit">Téléverser</button>
-</form>
+  {% if messages %}
+    <div class="alert-messages">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="images">Choisissez une image :</label>
+    <input type="file" name="images" multiple><br><br>
+    <button type="submit">Téléverser l'image</button>
+  </form>
 {% endblock %}
