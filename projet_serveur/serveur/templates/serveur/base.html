@@ -1,51 +1,78 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mon Application{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        nav {
-            background-color: #333;
-            padding: 10px;
-        }
-        nav a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            margin-top: 20px;
-            padding: 10px;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Gestion Admin{% endblock %}</title>
+
+    <!-- BOOTSTRAP STYLES-->
+    <link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="{% static 'assets/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="{% static 'assets/css/custom.css' %}" rel="stylesheet" />
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-    <header>
-        <h1>Application de Gestion des Employés</h1>
-    </header>
+    <div id="wrapper">
+        <!-- TOP NAVBAR -->
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Gestion Admin</a>
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
+                Last access : 30 May 2025 &nbsp;
+             </div>
+        </nav>
 
-    <nav>
-        <a href="{% url 'historique-acces' %}">Historique des accès</a>
-        <a href="{% url 'employe_list' %}">Liste des Employés</a>
-        
-    </nav>
+        <!-- SIDE NAVIGATION -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li class="text-center">
+                        <img src="{% static 'assets/img/find_user.png' %}" class="user-image img-responsive" />
+                    </li>
+                    <li>
+                        <a href="{% url 'index' %}"><i class="fa fa-home fa-3x"></i> Accueil</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'employe_list' %}"><i class="fa fa-users fa-3x"></i> Liste des Employés</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ajouter_employe' %}"><i class="fa fa-plus fa-3x"></i> Ajouter un Employé</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'historique-acces' %}"><i class="fa fa-clock-o fa-3x"></i> Historique d'accès</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
 
-    <div class="container">
-        {% block content %}{% endblock %}
+        <!-- PAGE CONTENT -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                {% block content %}
+                <!-- Contenu spécifique à chaque page ici -->
+                {% endblock %}
+            </div>
+        </div>
     </div>
+
+    <!-- SCRIPTS -->
+    <script src="{% static 'assets/js/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
 </body>
 </html>

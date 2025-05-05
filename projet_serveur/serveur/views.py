@@ -64,3 +64,5 @@ def modifier_employe(request, employe_id):
     images = Visage.objects.filter(employe=employe)
     return render(request, 'serveur/modifier_employe.html', {'form': form, 'employe': employe, 'images': images})
 
+def index(request):
+    return render(request, 'serveur/index.html')

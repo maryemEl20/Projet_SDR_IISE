@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'projet_serveur.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'basesdr',
+        'NAME': 'gestionporte',
         'USER': 'root',
-        'PASSWORD': 'Maryam_12345fsa',
+        'PASSWORD': 'KHAOULA1',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -134,3 +134,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STATIC_URL = '/static/'
+
+import os
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

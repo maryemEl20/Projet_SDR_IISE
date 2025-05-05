@@ -1,14 +1,30 @@
 {% extends 'serveur/base.html' %}
 
-{% block title %}Historique des accès{% endblock %}
+{% block title %}Téléverser Images - {{ employe.nom }}{% endblock %}
 
 {% block content %}
-<h2>Ajouter des images pour {{ employe.nom }}</h2>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2 class="page-header">Téléverser des images pour {{ employe.nom }}</h2>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <input type="file" name="images" multiple required>
-  <button type="submit">Téléverser</button>
-</form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ajouter des images du visage
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
 
+                    <div class="form-group has-info">
+                        <label class="control-label" for="id_images">Sélectionner les images</label>
+                        <input type="file" class="form-control" name="images" id="id_images" multiple required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">📤 Téléverser</button>
+                    <a href="{% url 'employe_list' %}" class="btn btn-default">Retour</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

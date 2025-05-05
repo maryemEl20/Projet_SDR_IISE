@@ -1,25 +1,40 @@
 {% extends 'serveur/base.html' %}
+{% load static %}
 
 {% block title %}Historique des accès{% endblock %}
 
 {% block content %}
-    <h1>Historique des accès</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Matricule</th>
-                <th>Date d'accès</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for acces in data %}
-            <tr>
-                <td>{{ acces.employe.nom }}</td>
-                <td>{{ acces.employe.matricule }}</td>
-                <td>{{ acces.date_entree }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">Historique des accès</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Historique des accès des Employés
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Matricule</th>
+                                <th>Date d'accès</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for acces in data %}
+                            <tr>
+                                <td>{{ acces.employe.nom }}</td>
+                                <td>{{ acces.employe.matricule }}</td>
+                                <td>{{ acces.date_entree }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

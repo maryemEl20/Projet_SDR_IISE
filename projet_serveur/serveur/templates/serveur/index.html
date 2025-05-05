@@ -3,11 +3,39 @@
 {% block title %}Page d'Accueil{% endblock %}
 
 {% block content %}
-<h1>Bienvenue sur l'Application de Gestion des Employés</h1>
-<p>Utilisez le menu de navigation pour accéder à différentes fonctionnalités de l'application :</p>
-<ul>
-    <li><a href="{% url 'employe_list' %}">Liste des Employés</a></li>
-    <li><a href="{% url 'historique-acces' %}">Historique des Accès</a></li>
-    <li><a href="{% url 'ajouter_employe' %}">Ajouter un Employé</a></li>
-</ul>
+<div class="container-fluid">
+    <h1 class="page-header">Bienvenue sur l'application de gestion des employés</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">👥 Liste des Employés</div>
+                <div class="panel-body text-center">
+                    <p>Consulter et modifier les employés enregistrés.</p>
+                    <a class="btn btn-primary" href="{% url 'employe_list' %}">Voir</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">🕒 Historique des Accès</div>
+                <div class="panel-body text-center">
+                    <p> Visualiser les derniers accès enregistrés par employé.  </p>
+                    <a class="btn btn-success" href="{% url 'historique-acces' %}">Voir</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">➕ Ajouter un Employé</div>
+                <div class="panel-body text-center">
+                    <p>   Ajouter un nouvel employé et ses images faciales.  </p>
+                    <a class="btn btn-info" href="{% url 'ajouter_employe' %}">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

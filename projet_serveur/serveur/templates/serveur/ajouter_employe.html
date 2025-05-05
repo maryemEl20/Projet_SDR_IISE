@@ -1,17 +1,46 @@
 {% extends 'serveur/base.html' %}
+{% load static %}
 
 {% block title %}Ajouter un Employé{% endblock %}
 
 {% block content %}
-<h1>Ajouter un Nouvel Employé</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2 class="page-header">Ajouter un Nouvel Employé</h2>
 
-    <label for="images">Télécharger plusieurs images du visage :</label>
-    <input type="file" name="images" multiple required>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Informations de l'employé
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
 
-    <button type="submit">Enregistrer</button>
-</form>
+                    <div class="form-group has-success">
+                        <label class="control-label" for="id_nom">Nom</label>
+                        {{ form.nom }}
+                        {% if form.nom.errors %}
+                            <div class="text-danger">{{ form.nom.errors }}</div>
+                        {% endif %}
+                    </div>
 
+                    <div class="form-group has-warning">
+                        <label class="control-label" for="id_matricule">Matricule</label>
+                        {{ form.matricule }}
+                        {% if form.matricule.errors %}
+                            <div class="text-danger">{{ form.matricule.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group has-error">
+                        <label class="control-label" for="images">Télécharger plusieurs images du visage :</label>
+                        <input type="file" name="images" id="images" class="form-control" multiple required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
