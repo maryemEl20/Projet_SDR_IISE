@@ -14,7 +14,6 @@ from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import render, redirect
 
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 # Configuration de Django
@@ -51,11 +50,14 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
             name = "Unknown"
             confidence = 1 - face_distances[best_match_index]
             
-            
 
             if matches[best_match_index]:
                 name = known_names[best_match_index]
                 enregistrer_acces(name)
+
+            if name == "Unknown":
+                enregistrer_acces(name)
+
             return face_pb2.RecognitionResponse(
                 name=name,
                 confidence=float(confidence * 100),
@@ -64,6 +66,7 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
                 w=int(right - left),
                 h=int(bottom - top)
             )
+
 
         return face_pb2.RecognitionResponse(name="Unknown", confidence=0.0, x=0, y=0, w=0, h=0)
 
@@ -77,25 +80,52 @@ def serve():
 
 
 
+# def enregistrer_acces(request,nom_employe):
+#     try:
+#         employe = Employe.objects.get(nom=nom_employe)
 
-def enregistrer_acces(request, nom_employe):
+#         dernier_acces = AccesLog.objects.filter(employe=employe).order_by('-date_entree').first()
+
+#         maintenant = timezone.now()
+#         if not dernier_acces or (maintenant - dernier_acces.date_entree) > timedelta(minutes=5):
+#             AccesLog.objects.create(employe=employe, date_entree=maintenant)
+#             #messages.success(request, f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
+#             log_event(nom_employe, "Succès", image_path=f"{nom_employe}.jpg")  
+#             #print(f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
+#         else:
+#             #messages.info(request, f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
+#             log_event(nom_employe, "Déjà enregistré récemment")
+#             #print(f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
+#     except Employe.DoesNotExist:
+#         #messages.error(request, f"Employé introuvable : {nom_employe}")
+#         log_event(nom_employe, "Échec (Employé introuvable)")
+
+#     return redirect('historique_acces')
+
+
+from utils.logging_utils import log_event
+
+def enregistrer_acces(nom_employe):
     try:
+        employe = Employe.objects.filter(nom=nom_employe)
+        if not employe:
+            log_event(nom_employe, "Échec (Employé introuvable)")
+            print(f"Employé introuvable")
+            return
+        
         employe = Employe.objects.get(nom=nom_employe)
-
         dernier_acces = AccesLog.objects.filter(employe=employe).order_by('-date_entree').first()
-
         maintenant = timezone.now()
+
         if not dernier_acces or (maintenant - dernier_acces.date_entree) > timedelta(minutes=5):
             AccesLog.objects.create(employe=employe, date_entree=maintenant)
-            messages.success(request, f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
-            print(f"Accès ENREGISTRÉ pour {nom_employe} à {maintenant}")
+            log_event(nom_employe, "Succès")
+            print(f"Accès ENREGISTRÉ pour {nom_employe}")
         else:
-            messages.info(request, f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
+            log_event(nom_employe, "Déjà enregistré récemment")
             print(f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
-    except Employe.DoesNotExist:
-        messages.error(request, f"Employé introuvable : {nom_employe}")
-
-    return redirect('historique_acces')
+    except Exception as e:
+        print(f"Erreur inconnue: {e}")
 
 
 if __name__ == '__main__':

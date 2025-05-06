@@ -2,7 +2,7 @@ from django.db import models
 import os
 
 class Employe(models.Model):
-    nom = models.CharField(max_length=100)
+    nom = models.CharField(max_length=255)
     matricule = models.CharField(max_length=50, unique=True)
 
 class Visage(models.Model):

@@ -1,5 +1,6 @@
 {% extends 'serveur/base.html' %}
 {% load static %}
+{% load static %}
 
 {% block title %}Historique des accès{% endblock %}
 
@@ -20,6 +21,8 @@
                                 <th>Nom</th>
                                 <th>Matricule</th>
                                 <th>Date d'accès</th>
+                                <th>Actions</th> 
+
                             </tr>
                         </thead>
                         <tbody>
@@ -28,6 +31,9 @@
                                 <td>{{ acces.employe.nom }}</td>
                                 <td>{{ acces.employe.matricule }}</td>
                                 <td>{{ acces.date_entree }}</td>
+                                <td>
+                                    <a href="{% url 'delete_historique' acces.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ?');">Supprimer </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
