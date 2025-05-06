@@ -8,6 +8,9 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 import shutil
+from datetime import datetime
+
+
 
 def historique_acces_view(request):
     data = AccesLog.objects.select_related('employe').order_by('-date_entree')
@@ -108,3 +111,16 @@ def modifier_employe(request, employe_id):
     return render(request, 'serveur/modifier_employe.html', {'form': form, 'employe': employe, 'images': images})
 
 
+def index(request):
+    return render(request, 'serveur/index.html')
+
+
+
+# from .serveur_grpc.recognition_service import enregistrer_acces
+
+# def mon_view(request):
+#     if request.method == 'POST':
+#         nom = request.POST.get('nom')
+#         enregistrer_acces(nom)  
+
+#     return render(request, 'historique_acces.html')
