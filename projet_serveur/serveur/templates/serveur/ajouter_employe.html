@@ -4,6 +4,15 @@
 {% block title %}Ajouter un Employé{% endblock %}
 
 {% block content %}
+{% if messages %}
+ <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2 class="page-header">Ajouter un Nouvel Employé</h2>
