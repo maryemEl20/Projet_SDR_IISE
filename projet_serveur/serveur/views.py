@@ -21,7 +21,7 @@ def delete_historique(request, acces_id):
     acces = get_object_or_404(AccesLog, id=acces_id)
     acces.delete()
     messages.success(request, "Le record d'accès a été supprimé avec succès.")
-    return redirect('historique_acces')  
+    return redirect('historique_acces')
 
 
 def employe_list(request):
@@ -32,7 +32,7 @@ def upload_image(request, employe_id):
     employe = get_object_or_404(Employe, id=employe_id)
     
     if request.method == 'POST':
-        images = request.FILES.getlist('images')  
+        images = request.FILES.getlist('images')
         if images:
             employe_folder_path = os.path.join(settings.MEDIA_ROOT, 'visages', employe.nom)
             if not os.path.exists(employe_folder_path):
@@ -76,7 +76,7 @@ def ajouter_employe(request):
                         f.write(chunk)
 
                 Visage.objects.create(employe=employe, image_path=image_path)
-
+            messages.success(request, f"L'employé {employe.nom} a été ajouté avec succès.")
             return redirect('/serveur/employes/')
     else:
         form = EmployeForm()
