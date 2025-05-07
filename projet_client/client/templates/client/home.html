@@ -1,0 +1,13 @@
+{% extends "client/base.html" %}
+
+{% block title %}Accueil - Reconnaissance Faciale{% endblock %}
+
+{% block content %}
+    <div class="home-container">
+        <h1>Bienvenue dans le système de contrôle d'accès sécurisé</h1>
+        <p>Veuillez cliquer sur le bouton ci-dessous pour lancer la reconnaissance faciale et accéder à l'espace protégé.</p>
+        <a href="{% url 'camera' %}">
+            <button class="btn-start">Lancer la reconnaissance faciale</button>
+        </a>
+    </div>
+{% endblock %}

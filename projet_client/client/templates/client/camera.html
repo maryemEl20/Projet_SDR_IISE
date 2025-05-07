@@ -1,0 +1,102 @@
+{% extends "client/base.html" %}
+
+{% block title %}Caméra - Reconnaissance Faciale{% endblock %}
+
+{% block content %}
+    <div class="camera-container">
+        <h1>Reconnaissance faciale en temps réel</h1>
+
+        <div id="resultBox" class="result-box">
+            <p><strong>Résultat :</strong> <span id="resultText">En attente...</span></p>
+        </div>
+        
+        <div class="video-wrapper">
+            <video id="video" autoplay playsinline></video>
+        </div>
+
+        <button id="startBtn" class="btn-start">Démarrer la caméra</button>
+        <button id="stopBtn" class="btn-stop" disabled>Arrêter la caméra</button>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const video = document.getElementById("video");
+        const resultText = document.getElementById("resultText");
+
+        let mediaStream = null;
+        let intervalId = null;
+
+        startBtn.onclick = async () => {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = mediaStream;
+
+                // Enable Stop button, disable Start
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+
+                // Clear any previous interval
+                if (intervalId) clearInterval(intervalId);
+
+                // Start sending frames every 2 seconds
+                intervalId = setInterval(async () => {
+                    if (!mediaStream) return;
+
+                    const canvas = document.createElement("canvas");
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(video, 0, 0);
+
+                    const imageDataURL = canvas.toDataURL("image/jpeg", 0.5);
+
+                    try {
+                        const response = await fetch("{% url 'recognize_api' %}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": "{{ csrf_token }}"
+                            },
+                            body: JSON.stringify({ image: imageDataURL })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.name && data.confidence > 50) {
+                            resultText.textContent = `${data.name} (${data.confidence.toFixed(2)}%)`;
+                        } else {
+                            resultText.textContent = "Inconnu ou non reconnu";
+                        }
+                    } catch (error) {
+                        console.error("Erreur lors de la reconnaissance:", error);
+                        resultText.textContent = "Erreur de connexion...";
+                    }
+
+                }, 2000);
+            } catch (err) {
+                alert("Impossible d'accéder à la caméra.");
+                console.error("Accès caméra refusé:", err);
+            }
+        };
+
+        stopBtn.onclick = () => {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+
+            video.srcObject = null;
+            resultText.textContent = "Arrêté";
+
+            // Enable Start button, disable Stop
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        };
+    </script>
+{% endblock %}
