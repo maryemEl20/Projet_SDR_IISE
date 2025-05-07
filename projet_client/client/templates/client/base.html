@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Reconnaissance Faciale{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <strong>Accès Sécurisé</strong>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Accueil</a>
+            <a href="{% url 'camera' %}">Lancer Caméra</a>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="content-container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Accès Sécurisé. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
