@@ -3,11 +3,13 @@
 {% block title %}Accueil - Reconnaissance Faciale{% endblock %}
 
 {% block content %}
-    <div class="home-container">
-        <h1>Bienvenue dans le système de contrôle d'accès sécurisé</h1>
-        <p>Veuillez cliquer sur le bouton ci-dessous pour lancer la reconnaissance faciale et accéder à l'espace protégé.</p>
+<div class="home-container">
+    <div class="welcome-box">
+        <h1><span class="emoji">🔐</span> Bienvenue dans le système de contrôle d'accès sécurisé</h1>
+        <p>Ce système utilise la reconnaissance faciale pour garantir un accès sûr et intelligent.</p>
         <a href="{% url 'camera' %}">
-            <button class="btn-start">Lancer la reconnaissance faciale</button>
+            <button class="btn-start large-btn">🚀 Lancer la reconnaissance faciale</button>
         </a>
     </div>
+</div>
 {% endblock %}
