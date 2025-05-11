@@ -17,6 +17,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
 
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -83,12 +85,24 @@ WSGI_APPLICATION = 'projet_serveur.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'basesdr',
+#         'USER': 'root',
+#         'PASSWORD': 'admin2002',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'basesdr',
         'USER': 'root',
-        'PASSWORD': 'admin2002',
+        'PASSWORD': 'Maryam_12345fsa',
         'HOST': 'localhost',
         'PORT': '3306',
     }
