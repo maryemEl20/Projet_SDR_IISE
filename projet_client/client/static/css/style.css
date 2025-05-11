@@ -1,41 +1,56 @@
+/* style.css */
+
+/* Import the Roboto font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
 /* Style général */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+    font-family: 'Roboto', sans-serif;
     padding: 0;
-    background: linear-gradient(to right, #f5f5f5, #e8eaf6);
+    background-color: #f5f5f5;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 0rem;
     color: #333;
 }
 
 /* Navbar */
 .navbar {
-    background-color: #1A237E;
+    padding: 1rem 2rem;
+    background-color: #2a71dc;
     color: white;
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.navbar a {
+.nav-links a {
     color: white;
+    margin-left: 1.5rem;
     text-decoration: none;
-    margin-left: 20px;
     font-weight: bold;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
+.content-container {
+    flex: 1;
+    /* Prend tout l'espace restant entre navbar et footer */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement */
+    align-items: center;      /* Centre horizontalement */
 }
 
-/* Container central */
-.content-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.navbar a:hover {
+    text-decoration: none;
 }
 
 /* Section caméra */
@@ -44,31 +59,28 @@ body {
     padding: 20px;
 }
 
-#video {
-    border-radius: 8px;
-    width: 640px;
-    height: 480px;
-}
-
 /* Boutons */
-.btn-start, .btn-stop {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
+.btn-start,
+.btn-stop {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
+    color: white;
+    background-color: #168d3c;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem;
 }
 
-.btn-start {
-    background-color: #4CAF50;
-    color: white;
-    margin-right: 10px;
+.btn-start:hover {
+    background-color: #267803;
 }
 
 .btn-stop {
-    background-color: #f44336;
-    color: white;
+    background-color: #e51025;
 }
 
 .btn-stop:disabled,
@@ -77,72 +89,37 @@ body {
     cursor: not-allowed;
 }
 
-/* Effets au survol */
-.btn-start:hover,
-.btn-stop:hover {
-    transform: scale(1.03);
-}
-
-/* Affichage des résultats */
 .result-box {
-    background-color: #e3f2fd;
-    border-left: 6px solid #1A237E;
-    padding: 15px;
-    margin: 20px auto;
-    width: 80%;
-    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0rem;
+    margin-bottom: 0.5rem;
     font-size: 1.1rem;
+    color: #444;
 }
 
-/* Page d'accueil */
-.home-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 60vh;
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.welcome-box {
-    background-color: white;
-    border-radius: 16px;
-    padding: 40px;
-    max-width: 700px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.8s ease-in-out;
+.video-wrapper {
+    position: relative;
+    width: 700px; /* ou 1000px selon ton besoin */
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1.5rem auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.welcome-box h1 {
-    font-size: 2rem;
-    color: #1A237E;
-    margin-bottom: 15px;
-}
-
-.welcome-box p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 25px;
-}
-
-.large-btn {
-    font-size: 1.1rem;
-    padding: 14px 28px;
-    border-radius: 8px;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-}
-
-.large-btn:hover {
-    transform: scale(1.05);
-    background-color: #388e3c;
-}
-
-.emoji {
-    font-size: 1.6rem;
-    vertical-align: middle;
-}
-
-/* Animation d'apparition */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+.titre{
+    padding-bottom:20px;
+    margin: 0;
+    padding-top: 20px;
 }
