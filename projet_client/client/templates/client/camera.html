@@ -62,11 +62,12 @@
                         });
 
                         const data = await response.json();
-
-                        if (data.name && data.confidence > 50) {
-                            resultText.textContent = `${data.name} (${data.confidence.toFixed(2)}%)`;
+                        if (data.name === "Unknown") {
+                            resultText.textContent = "Accès refusé";
+                        }else if (data.name && data.confidence > 50) {
+                            resultText.textContent = `Bonjour, accès autorisé pour ${data.name} (${data.confidence.toFixed(2)}%)`;
                         } else {
-                            resultText.textContent = "Inconnu ou non reconnu";
+                            resultText.textContent = "Aucun visage détecté";
                         }
                     } catch (error) {
                         console.error("Erreur lors de la reconnaissance:", error);

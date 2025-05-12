@@ -109,8 +109,8 @@ def enregistrer_acces(nom_employe):
     try:
         employe = Employe.objects.filter(nom=nom_employe)
         if not employe:
-            log_event(nom_employe, "Échec (Employé introuvable)")
-            print(f"Employé introuvable")
+            log_event(nom_employe, "Accès refusé : Employé introuvable ")
+            print(f"Accès refusé : Employé introuvable ")
             return
         
         employe = Employe.objects.get(nom=nom_employe)
@@ -119,8 +119,8 @@ def enregistrer_acces(nom_employe):
 
         if not dernier_acces or (maintenant - dernier_acces.date_entree) > timedelta(minutes=5):
             AccesLog.objects.create(employe=employe, date_entree=maintenant)
-            log_event(nom_employe, "Succès")
-            print(f"Accès ENREGISTRÉ pour {nom_employe}")
+            log_event(nom_employe, "Accès autorisé")
+            print(f"Accès autorisé pour {nom_employe}")
         else:
             log_event(nom_employe, "Déjà enregistré récemment")
             print(f"Accès DÉJÀ enregistré récemment pour {nom_employe}")
