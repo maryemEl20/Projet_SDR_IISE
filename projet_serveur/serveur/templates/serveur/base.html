@@ -33,8 +33,8 @@
                 <a class="navbar-brand" href="{% url 'index' %}">Gestion Admin</a>
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;">
-                Last access : 30 May 2025 &nbsp;
-             </div>
+                 Last access : {{ current_date }} &nbsp;
+            </div>
         </nav>
 
         <!-- SIDE NAVIGATION -->
@@ -76,6 +76,6 @@
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.metisMenu.js' %}"></script>
     <script src="{% static 'assets/js/custom.js' %}"></script>
-    <script src="{% static 'assets/js/msg.js' %}"></script>
+    <!-- <script src="{% static 'assets/js/msg.js' %}"></script> -->
 </body>
 </html>
