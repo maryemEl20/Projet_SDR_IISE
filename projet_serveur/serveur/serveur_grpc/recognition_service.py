@@ -23,9 +23,12 @@ django.setup()
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../serveur')))
 
 from serveur.models import Employe, AccesLog
+known_faces_path = os.path.join(os.path.dirname(__file__), 'known_faces.pickle')
+
+# from . import face_pb2, face_pb2_grpc
 
 # Chargement des encodages connus
-with open("known_faces.pickle", "rb") as f:
+with open(known_faces_path, "rb") as f:
     data = pickle.load(f)
     known_encodings = data["encodings"]
     known_names = data["names"]
@@ -40,22 +43,34 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
         face_encodings = face_recognition.face_encodings(rgb_img, face_locations)
 
         if not face_encodings:
-            return face_pb2.RecognitionResponse(name="No Face Detected", confidence=0.0, x=0, y=0, w=0, h=0)
+            print("Aucun visage détecté dans l’image")
+            return face_pb2.RecognitionResponse(
+                name="No Face Detected", confidence=0.0, x=0, y=0, w=0, h=0
+            )
+
+        if not known_encodings:
+            print("Erreur : Aucun encodage connu chargé depuis la base de données.")
+            return face_pb2.RecognitionResponse(
+                name="Erreur : base vide", confidence=0.0, x=0, y=0, w=0, h=0
+            )
 
         for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-            matches = face_recognition.compare_faces(known_encodings, face_encoding, tolerance=0.5)
             face_distances = face_recognition.face_distance(known_encodings, face_encoding)
+            
+            if len(face_distances) == 0:
+                print("Aucune correspondance possible : base vide")
+                continue
+
             best_match_index = np.argmin(face_distances)
+            matches = face_recognition.compare_faces(known_encodings, face_encoding, tolerance=0.5)
 
             name = "Unknown"
             confidence = 1 - face_distances[best_match_index]
-            
 
             if matches[best_match_index]:
                 name = known_names[best_match_index]
                 enregistrer_acces(name)
-
-            if name == "Unknown":
+            else:
                 enregistrer_acces(name)
 
             return face_pb2.RecognitionResponse(
@@ -66,7 +81,6 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
                 w=int(right - left),
                 h=int(bottom - top)
             )
-
 
         return face_pb2.RecognitionResponse(name="Unknown", confidence=0.0, x=0, y=0, w=0, h=0)
 

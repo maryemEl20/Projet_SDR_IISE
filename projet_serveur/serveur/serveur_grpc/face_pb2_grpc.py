@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import face_pb2 as face__pb2
+import face_pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -36,8 +36,8 @@ class FaceRecognitionStub(object):
         """
         self.RecognizeFace = channel.unary_unary(
                 '/FaceRecognition/RecognizeFace',
-                request_serializer=face__pb2.ImageRequest.SerializeToString,
-                response_deserializer=face__pb2.RecognitionResponse.FromString,
+                request_serializer=face_pb2.ImageRequest.SerializeToString,
+                response_deserializer=face_pb2.RecognitionResponse.FromString,
                 _registered_method=True)
 
 
@@ -55,8 +55,8 @@ def add_FaceRecognitionServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'RecognizeFace': grpc.unary_unary_rpc_method_handler(
                     servicer.RecognizeFace,
-                    request_deserializer=face__pb2.ImageRequest.FromString,
-                    response_serializer=face__pb2.RecognitionResponse.SerializeToString,
+                    request_deserializer=face_pb2.ImageRequest.FromString,
+                    response_serializer=face_pb2.RecognitionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -84,8 +84,8 @@ class FaceRecognition(object):
             request,
             target,
             '/FaceRecognition/RecognizeFace',
-            face__pb2.ImageRequest.SerializeToString,
-            face__pb2.RecognitionResponse.FromString,
+            face_pb2.ImageRequest.SerializeToString,
+            face_pb2.RecognitionResponse.FromString,
             options,
             channel_credentials,
             insecure,

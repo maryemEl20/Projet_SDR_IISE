@@ -17,4 +17,5 @@ urlpatterns = [
     path('historique/', views.historique_acces_view, name='historique_acces'),  
     path('historique/delete/<int:acces_id>/', views.delete_historique, name='delete_historique'),    
     path('', views.index, name='index'), 
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
