@@ -71,3 +71,8 @@ Gérer dynamiquement les utilisateurs autorisés via une interface d’administr
 Séparer clairement les rôles (client/serveur/tests).
 
 Offrir une base évolutive pour d'autres systèmes d'accès biométrique.
+
+# Vidéo de démonstration
+Vous pouvez consulter la vidéo du projet ici :
+
+Sur Google Drive : https://drive.google.com/file/d/1kY3X8-Q0mPf3az4-5n-PomI_7mordW2r/view?usp=sharing
